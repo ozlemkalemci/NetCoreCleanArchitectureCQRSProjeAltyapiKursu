@@ -1,11 +1,12 @@
-﻿using Core.Persistence.Paging;
+﻿using Core.Persistence.Dynamic;
+using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Core.Persistence.Repositories
 {
     // IAsyncRepository adlı bir arabirim (interface) tanımlanıyor.
-    public interface IAsyncRepository<TEntity, TEntityId> : IQueryable<TEntity>
+    public interface IAsyncRepository<TEntity, TEntityId> : IQuery<TEntity>
         where TEntity : Entity<TEntityId>
     {
         // Belirli bir koşula göre bir varlık almak için kullanılır.
@@ -53,18 +54,18 @@ namespace Core.Persistence.Repositories
         Task<TEntity> AddAsync(TEntity entity);
 
         // Bu metot, birden çok varlığı (ICollection<TEntity>) veritabanına eklemek için kullanılır.
-        Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entity);
+        Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entities);
 
         // Bu metot, varlık (TEntity) üzerinde yapılan değişiklikleri veritabanına kaydetmek için kullanılır.
         Task<TEntity> UpdateAsync(TEntity entity);
 
         // Bu metot, birden çok varlığın (ICollection<TEntity>) üzerinde yapılan değişiklikleri veritabanına kaydetmek için kullanılır.
-        Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entity);
+        Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities);
 
         // Bu metot, belirtilen varlığı (TEntity) veritabanından silmek için kullanılır.
         Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false);
 
         // Bu metot, birden çok varlığın (ICollection<TEntity>) veritabanından silmek için kullanılır.
-        Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entity, bool permanent = false);
+        Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false);
     }
 }
